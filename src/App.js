@@ -1,20 +1,9 @@
 import './App.css';
-
-import React from "react";
-import SearchIcon from '@mui/icons-material/Search';
-import HomeIcon from '@mui/icons-material/Home';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import Paper from '@mui/material/Paper';
+import HomePage from "./pages/homepage"
+import AuthPage from "./pages/authpage"
 
 
-import AdbIcon from '@mui/icons-material/Adb';
-import CommentIcon from '@mui/icons-material/Comment';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import MedicationIcon from '@mui/icons-material/Medication';
-import SettingsIcon from '@mui/icons-material/Settings';
-
-
+import { BrowserRouter, Routes, Navigate, Route } from "react-router-dom";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -36,93 +25,25 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-const auth = firebase.auth();
+
+
 function App() {
 
+  const auth = firebase.auth();
   const [user] = useAuthState(auth);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Beddy</h1>
-        <SearchIcon />
-        <HomeIcon />
-        <SignOut />
-      </header>
-      <section>
-        {user ? <MainPage /> : <SignIn />}
-      </section>
-
+     
+      <BrowserRouter>
+        {!user ? <Navigate replace to="/auth" /> : <Navigate replace to="/" />}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="auth" element={<AuthPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
-}
-
-function SignIn() {
-
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  }
-
-  return (
-    <>
-      <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
-      <p>Do not violate the community guidelines or you will be banned for life!</p>
-    </>
-  )
-
-}
-
-function SignOut() {
-  return auth.currentUser && (
-    <button className="sign-out" onClick={() => auth.signOut()}>Sign Out</button>
-  )
-}
-
-
-function MainPage() {
-
-
-  return (<>
-
-    <main>
-      <div className="start">
-      <img src={'https://www.freepnglogos.com/uploads/android-logo-png/android-logo-transparent-png-svg-vector-2.png'} />
-      <h1>김쿠갓님 반가워요</h1>
-      </div>
-      <div className="contents">
-      </div>
-      <BottomAppBar />
-      {/* {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-
-      <span ref={dummy}></span> */}
-
-    </main>
-
-  </>)
-}
-
-
-
-function BottomAppBar() {
-  const [value, setValue] = React.useState(0);
-  return (
-    <Paper elevation={1}>
-      <BottomNavigation sx={{ width: '100%', position: 'absolute', bottom: 0, maxWidth: 728 }}
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-      >
-
-        <BottomNavigationAction label="Beddy" icon={<AdbIcon />} />
-        <BottomNavigationAction label="Chat" icon={<CommentIcon />} />
-        <BottomNavigationAction label="Add" icon={<AddCircleIcon />} />
-        <BottomNavigationAction label="Medication" icon={<MedicationIcon />} />
-        <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
-      </BottomNavigation>
-    </Paper>);
 }
 
 
