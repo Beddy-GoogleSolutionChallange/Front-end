@@ -1,36 +1,22 @@
 body {
-  background-color: #282c34;
+  background-color: black;
 }
 
 .App {
   text-align: center;
-  max-width: 728px;
+  max-width: 390px;
+  max-height: 844px;
   margin: 0 auto;
 }
 
-.App header {
-  background-color: #181717;
-  height: 10vh;
-  min-height: 50px;
-  color: white;
-  position: fixed;
-  width: 100%;
-  max-width: 728px;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 99;
-  padding: 10px;
-  box-sizing: border-box;
-}
+
 
 .App section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
-  background-color: rgb(40, 37, 53);
+  background-color: #FFFDFB;
 }
 
 
@@ -58,7 +44,7 @@ button:disabled {
 .sign-in {
   color: #282c34;
   background: white;
-  max-width: 400px;
+  max-width: 210px;
   margin: 0 auto;
 }
 
@@ -71,21 +57,20 @@ ul, li {
 }
 
 p {
-  max-width: 500px;
+  max-width: 267px;
   margin-bottom: 12px;
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 25px;
   position: relative;
-  color: white;
+  color: black;
   text-align: center;
 }
 
 main {
-  max-width: 728px;
+  max-width: 390px;
   height: 80vh;
   margin: 10vh 0 10vh;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
 }

@@ -1,4 +1,7 @@
+// 로그아웃 버튼
+
 import firebase from 'firebase/compat/app';
+
 
 
 function SignOut() {

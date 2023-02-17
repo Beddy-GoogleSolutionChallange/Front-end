@@ -1,3 +1,5 @@
+// 바텀네비게이션 바-> 나중에 화면 이동 기능 구현 필요
+
 import React from "react";
 
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -16,14 +18,13 @@ function BottomNavigationBar() {
     const [value, setValue] = React.useState(0);
     return (
       <Paper elevation={1}>
-        <BottomNavigation sx={{ width: '100%', position: 'absolute', bottom: 0, maxWidth: 728 }}
+        <BottomNavigation sx={{ width: '100%', position: 'absolute', bottom: 0, maxWidth: 390 }}
           showLabels
           value={value}
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
         >
-  
           <BottomNavigationAction label="Beddy" icon={<AdbIcon />} />
           <BottomNavigationAction label="Chat" icon={<CommentIcon />} />
           <BottomNavigationAction label="Add" icon={<AddCircleIcon />} />
