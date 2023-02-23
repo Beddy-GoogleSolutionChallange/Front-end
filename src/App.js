@@ -1,6 +1,9 @@
 import "./App.css";
 import HomePage from "./pages/homepage";
 import AuthPage from "./pages/authpage";
+import LoadingPage from "./pages/loadingPage";
+import SigninPage from "./pages/signinPage";
+import LoginPage from "./pages/loginPage";
 
 import { BrowserRouter, Routes, Navigate, Route } from "react-router-dom";
 import firebase from "firebase/compat/app";
@@ -35,6 +38,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="auth" element={<AuthPage />} />
+          <Route path="/loading" element={<LoadingPage />} />
+          <Route path="/signin" element={<SigninPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
     </div>
