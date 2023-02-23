@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from 'react';
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { purple } from "@mui/material/colors";
+import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
+
 
 const BgDiv = styled.div`
   background: linear-gradient(144.85deg, #fff7ef 0%, #d7c4e0 99.08%);
@@ -108,6 +110,38 @@ const LogoSource = styled.img`
 `;
 
 function LoginPage() {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  const signIn = async (e) => {
+    e.preventDefault()
+    const isEmpty = (email, password) => {
+      if (email.isEmpty || password.isEmpty) return true;
+      return false;
+    }
+    if (isEmpty(email, password)) {
+      // 유저한테 무엇이 잘못되었는지 showdialog해서 보여주어야 함(나중에 만들기)
+      return;
+    }
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          navigate("/home")
+          console.log(user);
+        })
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      // ..
+    };
+  }
+
   return (
     <section>
       <BgDiv>
@@ -118,10 +152,10 @@ function LoginPage() {
         <LogoSource src="./logo.png"></LogoSource>
         <Title>환영해요!</Title>
         <InputContainer>
-          <InputLine placeholder="아이디"></InputLine>
-          <InputLine placeholder="비밀번호"></InputLine>
+          <InputLine type="email" value={email || ""} label="Email address" onChange={(e) => setEmail(e.target.value)} placeholder="이메일"></InputLine>
+          <InputLine type="password" value={password || ""} label="Create password" onChange={(e) => setPassword(e.target.value)} placeholder="비밀번호"></InputLine>
         </InputContainer>
-        <LoginButton>로그인</LoginButton>
+        <LoginButton onClick={signIn}> 로그인</LoginButton>
         <SinginLink to="/signin">회원가입</SinginLink>
         <BeddySource src="./beddy.png"></BeddySource>
       </BgDiv>

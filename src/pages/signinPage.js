@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from 'react';
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { purple } from "@mui/material/colors";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword, } from 'firebase/auth';
+// 파이어베이서 파일에서 import 해온 db
+import { app } from '../App'
+// db에 접근해서 데이터를 꺼내게 도와줄 친구들
+import { collection, addDoc, getFirestore } from "@firebase/firestore";
 
 const BgDiv = styled.div`
   background: linear-gradient(144.85deg, #fff7ef 0%, #d7c4e0 99.08%);
@@ -104,11 +109,67 @@ const StyledDiv = styled.div`
 `;
 
 function SigninPage() {
+
+
+
+
+  const [nickname, setNickname] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+
+  const db = getFirestore(app);
+ 
+
+
+  const registerUserInDB = async () => {
+    const uid = auth.currentUser.uid;
+    await addDoc(collection(db, "users"), { nickname: nickname, email: email, uid: uid });
+  }
+
+
+  const isPasswordConfirmed = (password, confirmPassword) => {
+    if (password && confirmPassword && password === confirmPassword) return true;
+    return false;
+  }
+  const isEmpty = (nickname, email, password) => {
+    if (nickname.isEmpty || email.isEmpty || password.isEmpty) return true;
+    return false;
+  }
+
+  const signUp = async (e) => {
+    e.preventDefault()
+    if (!isPasswordConfirmed(password, confirmPassword) || isEmpty(nickname, email, password)) {
+      // 유저한테 무엇이 잘못되었는지 showdialog해서 보여주어야 함(나중에 만들기)
+      return;
+    }
+    try {
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          registerUserInDB();
+          navigate("/home")
+          // ...
+        });
+
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      // ..
+    };
+
+  }
   return (
     <section>
       <BgDiv>
         <TopLine>
-          <Link to="/login">
+          <Link to="/">
             <ArrowBackIosIcon sx={{ color: purple[200] }} />
           </Link>
           <StyledDiv>회원가입</StyledDiv>
@@ -116,12 +177,12 @@ function SigninPage() {
         <LogoSource src="./logo.png"></LogoSource>
         <Title>반가워요! 당신을 알고 싶어요!</Title>
         <InputContainer>
-          <InputLine placeholder="별명"></InputLine>
-          <InputLine placeholder="아이디"></InputLine>
-          <InputLine placeholder="비밀번호"></InputLine>
-          <InputLine placeholder="비밀번호 확인"></InputLine>
+          <InputLine value={nickname || ""} label="Your nickname" onChange={(e) => setNickname(e.target.value)} placeholder="별명"></InputLine>
+          <InputLine type="email" value={email || ""} label="Email address" onChange={(e) => setEmail(e.target.value)} placeholder="이메일"></InputLine>
+          <InputLine type="password" value={password || ""} label="Create password" onChange={(e) => setPassword(e.target.value)} placeholder="비밀번호"></InputLine>
+          <InputLine type="password" value={confirmPassword || ""} label="rewrite password" onChange={(e) => setConfirmPassword(e.target.value)} placeholder="비밀번호 확인"></InputLine>
         </InputContainer>
-        <CompleteButton>가입하기</CompleteButton>
+        <CompleteButton onClick={signUp}>가입하기</CompleteButton>
         <BeddySource src="./beddy.png"></BeddySource>
       </BgDiv>
     </section>

@@ -24,8 +24,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
 
 function App() {
   const auth = firebase.auth();
@@ -34,13 +33,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        {!user ? <Navigate replace to="/auth" /> : <Navigate replace to="/" />}
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/signin" element={<SigninPage />} />
           <Route path="auth" element={<AuthPage />} />
           <Route path="/loading" element={<LoadingPage />} />
-          <Route path="/signin" element={<SigninPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/home" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </div>
@@ -48,3 +46,4 @@ function App() {
 }
 
 export default App;
+export const app = firebase.initializeApp(firebaseConfig);
