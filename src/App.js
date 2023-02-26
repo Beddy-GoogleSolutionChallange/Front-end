@@ -5,7 +5,7 @@ import LoadingPage from "./pages/loadingPage";
 import SigninPage from "./pages/signinPage";
 import LoginPage from "./pages/loginPage";
 
-import { BrowserRouter, Routes, Navigate, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
@@ -24,7 +24,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-
 
 function App() {
   const auth = firebase.auth();

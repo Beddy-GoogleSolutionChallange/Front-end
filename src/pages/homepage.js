@@ -1,5 +1,4 @@
 //  홈피화면
-
 import React from "react";
 
 import BottomNavigationBar from "../components/bottom-navigation-bar";
@@ -16,19 +15,14 @@ const HomePage = () => {
       <section>
         <main>
           <HomeDiv1 />
-          <CardSlider />
           <HomeDiv2 />
-          <SignOut/>
+          <CardSlider />
+          <SignOut />
           <BottomNavigationBar />
         </main>
       </section>
     </>
   );
 };
-
-
-
-
-
 
 export default HomePage;

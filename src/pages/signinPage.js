@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { purple } from "@mui/material/colors";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword, } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // 파이어베이서 파일에서 import 해온 db
-import { app } from '../App'
+import { app } from "../App";
 // db에 접근해서 데이터를 꺼내게 도와줄 친구들
 import { collection, addDoc, getFirestore } from "@firebase/firestore";
 
@@ -107,80 +106,126 @@ const StyledDiv = styled.div`
   text-align: center;
   color: #a48fb8;
 `;
+const ErrorDiv = styled.div`
+  color: #61689f;
+`;
 
 function SigninPage() {
-
-
-
-
-  const [nickname, setNickname] = useState("")
-  const [email, setEmail] = useState("")
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errormessage, setErrormessage] = useState("");
+
   const navigate = useNavigate();
   const auth = getAuth();
 
-
   const db = getFirestore(app);
- 
 
+  function mapAuthCodeToMessage(authCode) {
+    switch (authCode) {
+      case "auth/email-already-in-use":
+        return "이미 사용중인 이메일이에요.";
+
+      case "auth/invalid-email":
+        return "이메일 형식이 맞지 않습니다.";
+
+      case "auth/weak-password":
+        return "비밀번호가 취약합니다.";
+      // Many more authCode mapping here...
+
+      default:
+        return "";
+    }
+  }
 
   const registerUserInDB = async () => {
     const uid = auth.currentUser.uid;
-    await addDoc(collection(db, "users"), { nickname: nickname, email: email, uid: uid });
-  }
-
+    await addDoc(collection(db, "users"), {
+      nickname: nickname,
+      email: email,
+      uid: uid,
+    });
+  };
 
   const isPasswordConfirmed = (password, confirmPassword) => {
-    if (password && confirmPassword && password === confirmPassword) return true;
+    if (password && confirmPassword && password === confirmPassword)
+      return true;
     return false;
-  }
+  };
   const isEmpty = (nickname, email, password) => {
     if (nickname.isEmpty || email.isEmpty || password.isEmpty) return true;
     return false;
-  }
+  };
 
   const signUp = async (e) => {
-    e.preventDefault()
-    if (!isPasswordConfirmed(password, confirmPassword) || isEmpty(nickname, email, password)) {
+    e.preventDefault();
+    if (
+      !isPasswordConfirmed(password, confirmPassword) ||
+      isEmpty(nickname, email, password)
+    ) {
       // 유저한테 무엇이 잘못되었는지 showdialog해서 보여주어야 함(나중에 만들기)
       return;
     }
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+      await createUserWithEmailAndPassword(auth, email, password).then(
+        (userCredential) => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
           registerUserInDB();
-          navigate("/home")
+          navigate("/home");
           // ...
-        });
-
+        }
+      );
     } catch (error) {
       const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
+      console.log(errorCode);
+      setErrormessage(mapAuthCodeToMessage(errorCode));
+      console.log(errormessage);
       // ..
-    };
-
-  }
+    }
+  };
   return (
     <section>
       <BgDiv>
         <TopLine>
           <Link to="/">
-            <ArrowBackIosIcon sx={{ color: purple[200] }} />
+            <ArrowBackIosIcon sx={{ color: "#A48FB8" }} />
           </Link>
           <StyledDiv>회원가입</StyledDiv>
         </TopLine>
         <LogoSource src="./logo.png"></LogoSource>
         <Title>반가워요! 당신을 알고 싶어요!</Title>
         <InputContainer>
-          <InputLine value={nickname || ""} label="Your nickname" onChange={(e) => setNickname(e.target.value)} placeholder="별명"></InputLine>
-          <InputLine type="email" value={email || ""} label="Email address" onChange={(e) => setEmail(e.target.value)} placeholder="이메일"></InputLine>
-          <InputLine type="password" value={password || ""} label="Create password" onChange={(e) => setPassword(e.target.value)} placeholder="비밀번호"></InputLine>
-          <InputLine type="password" value={confirmPassword || ""} label="rewrite password" onChange={(e) => setConfirmPassword(e.target.value)} placeholder="비밀번호 확인"></InputLine>
+          <InputLine
+            value={nickname || ""}
+            label="Your nickname"
+            onChange={(e) => setNickname(e.target.value)}
+            placeholder="별명"
+          ></InputLine>
+          <InputLine
+            type="email"
+            value={email || ""}
+            label="Email address"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="이메일"
+          ></InputLine>
+          <InputLine
+            type="password"
+            value={password || ""}
+            label="Create password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호"
+          ></InputLine>
+          <InputLine
+            type="password"
+            value={confirmPassword || ""}
+            label="rewrite password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="비밀번호 확인"
+          ></InputLine>
+          <ErrorDiv>{errormessage}</ErrorDiv>
         </InputContainer>
         <CompleteButton onClick={signUp}>가입하기</CompleteButton>
         <BeddySource src="./beddy.png"></BeddySource>
