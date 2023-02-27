@@ -19,7 +19,14 @@ function BottomNavigationBar() {
   return (
     <Paper elevation={1}>
       <BottomNavigation
-        sx={{ width: "100%", position: "absolute", bottom: 0, maxWidth: 390 }}
+        sx={{
+          width: "100%",
+          position: "absolute",
+          bottom: 0,
+          maxWidth: 390,
+          background: "#FFFDFB",
+          boxShadow: "0px -4px 13px 1px rgba(238, 187, 204, 0.15)",
+        }}
         showLabels
         value={value}
         onChange={(event, newValue) => {
