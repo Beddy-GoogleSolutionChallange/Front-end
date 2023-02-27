@@ -133,7 +133,10 @@ function SigninPage() {
       case "auth/weak-password":
         return "비밀번호가 취약합니다.";
       // Many more authCode mapping here...
-
+      case "auth/is-empty":
+        return "빈칸을 채워주세요.";
+      case "auth/password-not-confirmed":
+        return "비밀번호가 일치하지 않습니다.";
       default:
         return "";
     }
@@ -149,22 +152,31 @@ function SigninPage() {
   };
 
   const isPasswordConfirmed = (password, confirmPassword) => {
-    if (password && confirmPassword && password === confirmPassword)
+    if (password === confirmPassword)
       return true;
     return false;
   };
-  const isEmpty = (nickname, email, password) => {
-    if (nickname.isEmpty || email.isEmpty || password.isEmpty) return true;
+  const isEmpty = (nickname, email, password, confirmPassword) => {
+    if (nickname === '' || email === '' || password === '' || confirmPassword === '') return true;
     return false;
   };
 
   const signUp = async (e) => {
     e.preventDefault();
     if (
-      !isPasswordConfirmed(password, confirmPassword) ||
-      isEmpty(nickname, email, password)
+      isEmpty(nickname, email, password, confirmPassword)
     ) {
-      // 유저한테 무엇이 잘못되었는지 showdialog해서 보여주어야 함(나중에 만들기)
+      const errorCode = 'auth/is-empty';
+      console.log(errorCode);
+      setErrormessage(mapAuthCodeToMessage(errorCode));
+      return;
+    }
+    if (
+      !isPasswordConfirmed(password, confirmPassword)
+    ) {
+      const errorCode = 'auth/password-not-confirmed';
+      console.log(errorCode);
+      setErrormessage(mapAuthCodeToMessage(errorCode));
       return;
     }
     try {
@@ -173,6 +185,10 @@ function SigninPage() {
           // Signed in
           const user = userCredential.user;
           console.log(user);
+          console.log(nickname);
+          console.log(email);
+          console.log(password);
+          console.log(confirmPassword);
           registerUserInDB();
           navigate("/home");
           // ...

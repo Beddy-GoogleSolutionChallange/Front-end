@@ -10,7 +10,6 @@ body {
 }
 
 
-
 .App section {
   display: flex;
   flex-direction: column;
@@ -18,27 +17,9 @@ body {
   justify-content: center;
   min-height: 100vh;
   background-color: #FFFDFB;
+
 }
 
-
-
-
-button {
-  background-color: #282c34; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  font-size: 1.25rem;
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 
 
 .sign-in {
@@ -73,6 +54,7 @@ main {
   margin: 10vh 0 10vh;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
 
 .start{

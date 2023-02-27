@@ -4,13 +4,13 @@ import AuthPage from "./pages/authpage";
 import LoadingPage from "./pages/loadingPage";
 import SigninPage from "./pages/signinPage";
 import LoginPage from "./pages/loginPage";
+import ChattingPage from "./pages/chattingPage";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const firebaseConfig = {
@@ -22,6 +22,7 @@ const firebaseConfig = {
   appId: "1:675515444432:web:d04ecf910c731871ca42d5",
   measurementId: "G-XYWL2RE9PK",
 };
+
 
 // Initialize Firebase
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="auth" element={<AuthPage />} />
           <Route path="/loading" element={<LoadingPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/chat" element={<ChattingPage />} />
         </Routes>
       </BrowserRouter>
     </div>
