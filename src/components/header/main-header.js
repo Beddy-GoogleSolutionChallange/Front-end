@@ -39,11 +39,14 @@ const IconDiv = styled.div`
 `;
 
 function MainHeader() {
+  const imgClicked = () => {
+    window.location = `/home`;
+  };
   return (
     <StyledHeader>
       <BeddySource src="./beddy.png"></BeddySource>
       <IconDiv>
-        <HomeIcon sx={{ color: "#61689F" }} />
+        <HomeIcon sx={{ color: "#61689F" }} onClick={imgClicked} />
         <SearchIcon sx={{ color: "#61689F" }} />
       </IconDiv>
     </StyledHeader>

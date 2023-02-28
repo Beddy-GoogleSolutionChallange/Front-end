@@ -12,6 +12,7 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
+import ProfilePage from "./pages/profile";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDq1ykb435s1NUEwGXtVkcPURkQab_HtPc",
@@ -22,7 +23,6 @@ const firebaseConfig = {
   appId: "1:675515444432:web:d04ecf910c731871ca42d5",
   measurementId: "G-XYWL2RE9PK",
 };
-
 
 // Initialize Firebase
 
@@ -40,6 +40,7 @@ function App() {
           <Route path="/loading" element={<LoadingPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/chat" element={<ChattingPage />} />
+          <Route path="/myprofile" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -121,13 +121,12 @@ function LoginPage() {
     switch (authCode) {
       case "auth/wrong-password":
         return "비밀번호가 달라요.";
-
       case "auth/invalid-email":
         return "이메일 형식이 맞지 않습니다.";
       case "auth/user-not-found":
         return "유저 정보를 찾지 못했습니다.";
-        case "auth/is-empty":
-          return "빈칸을 채워주세요.";
+      case "auth/is-empty":
+        return "빈칸을 채워주세요.";
       // Many more authCode mapping here...
 
       default:
@@ -138,11 +137,11 @@ function LoginPage() {
   const signIn = async (e) => {
     e.preventDefault();
     const isEmpty = (email, password) => {
-      if (email==='' || password==='') return true;
+      if (email === "" || password === "") return true;
       return false;
     };
     if (isEmpty(email, password)) {
-      const errorCode = 'auth/is-empty';
+      const errorCode = "auth/is-empty";
       console.log(errorCode);
       setErrormessage(mapAuthCodeToMessage(errorCode));
       return;
