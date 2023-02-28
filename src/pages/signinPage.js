@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 // 파이어베이서 파일에서 import 해온 db
 import { app } from "../App";
 // db에 접근해서 데이터를 꺼내게 도와줄 친구들
@@ -152,29 +156,30 @@ function SigninPage() {
   };
 
   const isPasswordConfirmed = (password, confirmPassword) => {
-    if (password === confirmPassword)
-      return true;
+    if (password === confirmPassword) return true;
     return false;
   };
   const isEmpty = (nickname, email, password, confirmPassword) => {
-    if (nickname === '' || email === '' || password === '' || confirmPassword === '') return true;
+    if (
+      nickname === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
+    )
+      return true;
     return false;
   };
 
   const signUp = async (e) => {
     e.preventDefault();
-    if (
-      isEmpty(nickname, email, password, confirmPassword)
-    ) {
-      const errorCode = 'auth/is-empty';
+    if (isEmpty(nickname, email, password, confirmPassword)) {
+      const errorCode = "auth/is-empty";
       console.log(errorCode);
       setErrormessage(mapAuthCodeToMessage(errorCode));
       return;
     }
-    if (
-      !isPasswordConfirmed(password, confirmPassword)
-    ) {
-      const errorCode = 'auth/password-not-confirmed';
+    if (!isPasswordConfirmed(password, confirmPassword)) {
+      const errorCode = "auth/password-not-confirmed";
       console.log(errorCode);
       setErrormessage(mapAuthCodeToMessage(errorCode));
       return;
@@ -184,13 +189,14 @@ function SigninPage() {
         (userCredential) => {
           // Signed in
           const user = userCredential.user;
+          updateProfile(auth.currentUser, { displayName: nickname });
           console.log(user);
           console.log(nickname);
           console.log(email);
           console.log(password);
           console.log(confirmPassword);
           registerUserInDB();
-          navigate("/home");
+          navigate("/");
           // ...
         }
       );
