@@ -148,10 +148,12 @@ function SigninPage() {
 
   const registerUserInDB = async () => {
     const uid = auth.currentUser.uid;
+
     await addDoc(collection(db, "users"), {
       nickname: nickname,
       email: email,
       uid: uid,
+
     });
   };
 
@@ -189,71 +191,74 @@ function SigninPage() {
         (userCredential) => {
           // Signed in
           const user = userCredential.user;
-          updateProfile(auth.currentUser, { displayName: nickname });
-          console.log(user);
-          console.log(nickname);
-          console.log(email);
-          console.log(password);
-          console.log(confirmPassword);
-          registerUserInDB();
-          navigate("/");
-          // ...
-        }
-      );
-    } catch (error) {
-      const errorCode = error.code;
-      console.log(errorCode);
-      setErrormessage(mapAuthCodeToMessage(errorCode));
-      console.log(errormessage);
-      // ..
+          const update = {
+             displayName: nickname, photoURL: 'https://mblogthumb-phinf.pstatic.net/20150427_261/ninevincent_1430122791768m7oO1_JPEG/kakao_1.jpg?type=w2' };
+        
+      updateProfile(auth.currentUser, update);
+      console.log(user);
+      console.log(nickname);
+      console.log(email);
+      console.log(password);
+      console.log(confirmPassword);
+      registerUserInDB();
+      navigate("/");
+      // ...
     }
+      );
+} catch (error) {
+  const errorCode = error.code;
+  console.log(errorCode);
+  setErrormessage(mapAuthCodeToMessage(errorCode));
+  console.log(errormessage);
+  // ..
+}
   };
-  return (
-    <section>
-      <BgDiv>
-        <TopLine>
-          <Link to="/">
-            <ArrowBackIosIcon sx={{ color: "#A48FB8" }} />
-          </Link>
-          <StyledDiv>회원가입</StyledDiv>
-        </TopLine>
-        <LogoSource src="./logo.png"></LogoSource>
-        <Title>반가워요! 당신을 알고 싶어요!</Title>
-        <InputContainer>
-          <InputLine
-            value={nickname || ""}
-            label="Your nickname"
-            onChange={(e) => setNickname(e.target.value)}
-            placeholder="별명"
-          ></InputLine>
-          <InputLine
-            type="email"
-            value={email || ""}
-            label="Email address"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="이메일"
-          ></InputLine>
-          <InputLine
-            type="password"
-            value={password || ""}
-            label="Create password"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="비밀번호"
-          ></InputLine>
-          <InputLine
-            type="password"
-            value={confirmPassword || ""}
-            label="rewrite password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="비밀번호 확인"
-          ></InputLine>
-          <ErrorDiv>{errormessage}</ErrorDiv>
-        </InputContainer>
-        <CompleteButton onClick={signUp}>가입하기</CompleteButton>
-        <BeddySource src="./beddy.png"></BeddySource>
-      </BgDiv>
-    </section>
-  );
+return (
+  <section>
+    <BgDiv>
+      <TopLine>
+        <Link to="/">
+          <ArrowBackIosIcon sx={{ color: "#A48FB8" }} />
+        </Link>
+        <StyledDiv>회원가입</StyledDiv>
+      </TopLine>
+      <LogoSource src="./logo.png"></LogoSource>
+      <Title>반가워요! 당신을 알고 싶어요!</Title>
+      <InputContainer>
+        <InputLine
+          value={nickname || ""}
+          label="Your nickname"
+          onChange={(e) => setNickname(e.target.value)}
+          placeholder="별명"
+        ></InputLine>
+        <InputLine
+          type="email"
+          value={email || ""}
+          label="Email address"
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="이메일"
+        ></InputLine>
+        <InputLine
+          type="password"
+          value={password || ""}
+          label="Create password"
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="비밀번호"
+        ></InputLine>
+        <InputLine
+          type="password"
+          value={confirmPassword || ""}
+          label="rewrite password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="비밀번호 확인"
+        ></InputLine>
+        <ErrorDiv>{errormessage}</ErrorDiv>
+      </InputContainer>
+      <CompleteButton onClick={signUp}>가입하기</CompleteButton>
+      <BeddySource src="./beddy.png"></BeddySource>
+    </BgDiv>
+  </section>
+);
 }
 
 export default SigninPage;

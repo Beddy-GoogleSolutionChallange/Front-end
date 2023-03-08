@@ -2,7 +2,7 @@ import styled from "styled-components";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { collection, addDoc, getFirestore } from "@firebase/firestore";
@@ -95,7 +95,15 @@ const firestore = firebase.firestore();
 const app = firebase.initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+
+
+
+
 function ChattingPage() {
+  
+  
+
+  
   const dummy = useRef();
   const messagesRef = firestore.collection("messages");
   const query = messagesRef.orderBy("createdAt", "desc").limit(25);
@@ -107,8 +115,7 @@ function ChattingPage() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL } = auth.currentUser;
-
+    const { uid,photoURL } = auth.currentUser;
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -118,6 +125,10 @@ function ChattingPage() {
 
     setFormValue("");
   };
+  useEffect(() => {
+   dummy.current?.scrollIntoView({behavior: 'smooth'});
+     
+  });
   return (
     <BgDiv>
       <MainHeader />
@@ -152,6 +163,7 @@ function ChatMessage(props) {
   return (
     <>
       <Message object={messageClass}>
+
         <Img
           src={
             photoURL ||
