@@ -29,8 +29,7 @@ const Main = styled.div`
   width: 94%;
   height: 100vh;
 `;
-const Letter = styled.p`
-  text-align: left;
+const Letter = styled.div`
   vertical-align: top;
   font-size: 12px;
   font-family: NanumSquare;
@@ -42,9 +41,11 @@ const Message = styled.div`
   align-items: center;
   background: ${(props) => (props.object === "me" ? "#d7c4e0" : "#FFF7EF")};
   align-self: ${(props) => (props.object === "me" ? "flex-end" : "flex-start")};
-  flex-direction: row-reverse;
+  flex-direction: ${(props) => (props.object === "me" ? "row-reverse" : "row")};
   border-radius: 37px;
   margin: 10px;
+  padding: ${(props) =>
+    props.object === "me" ? "5px 0 5px 10px" : "5px 10px 5px 0"};
 `;
 const Input = styled.input`
   border-radius: 19px;
@@ -122,7 +123,10 @@ function ChattingPage() {
       <MainHeader />
       <Main>
         {messages &&
-          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          messages
+            .slice(0)
+            .reverse()
+            .map((msg) => <ChatMessage key={msg.id} message={msg} />)}
         <span ref={dummy}></span>
       </Main>
       <Form onSubmit={sendMessage}>
@@ -143,16 +147,17 @@ function ChattingPage() {
 function ChatMessage(props) {
   const { text, uid, photoURL } = props.message;
 
-  const messageClass = uid === auth.currentUser.uid ? "me" : "received";
+  const messageClass = uid == auth.currentUser.uid ? "me" : "received";
 
   return (
     <>
       <Message object={messageClass}>
         <Img
           src={
-            photoURL || "https://api.adorable.io/avatars/23/abott@adorable.png"
+            photoURL ||
+            "https://mblogthumb-phinf.pstatic.net/20150427_261/ninevincent_1430122791768m7oO1_JPEG/kakao_1.jpg?type=w2"
           }
-        ></Img>
+        />
         <Letter object={messageClass}>{text}</Letter>
       </Message>
     </>

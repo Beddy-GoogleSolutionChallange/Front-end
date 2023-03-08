@@ -11,6 +11,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 import MainHeader from "../components/header/main-header";
+import ProfileHeader from "../components/header/profile-header";
 import BottomNavigationBar from "../components/bottom-navigation-bar";
 
 const BgDiv = styled.div`
@@ -127,7 +128,7 @@ const db = getFirestore(app);
 function ProfilePage() {
   return (
     <BgDiv>
-      <MainHeader />
+      <ProfileHeader />
       <Main>
         <ProfileContainer>
           <ProfileImg />

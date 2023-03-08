@@ -9,10 +9,12 @@ const StyledWordsContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: 1rem 7.5%;
 `;
 const IconSource = styled.img`
   width: 47px;
   height: 47px;
+  margin-right: 5%;
 `;
 
 const firebaseConfig = {
@@ -38,8 +40,8 @@ function HomeDiv1() {
   return (
     <StyledWordsContainer>
       <IconSource src="./bottom-icon1.png" />
-      <span>{nickname}</span>
-      <span>님 반가워요.</span>
+      <div>{nickname}</div>
+      <div>님 반가워요.</div>
     </StyledWordsContainer>
   );
 }
