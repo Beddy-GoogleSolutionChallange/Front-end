@@ -37,12 +37,19 @@ function BottomNavigationBar() {
       <BottomNavigationAction
         iconOnly
         icon={<ImgSource src="./bottom-icon1.png" />}
+        component={Link}
+        to="/home"
       />
       <BottomNavigationAction
         iconOnly
         icon={<ImgSource src="./bottom-icon2.png" />}
-      />
-      <BottomNavigationAction label="Add" icon={<AddCircleIcon />} />
+        component={Link}
+        to="/second" />
+      <BottomNavigationAction 
+        label="Add" 
+        icon={<AddCircleIcon />}
+        component={Link}
+        to="/write_post" />
       <BottomNavigationAction
         iconOnly
         icon={<ImgSource src="./bottom-icon3.png" />}

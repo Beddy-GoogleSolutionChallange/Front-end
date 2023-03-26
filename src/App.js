@@ -4,7 +4,8 @@ import AuthPage from "./pages/authpage";
 import LoadingPage from "./pages/loadingPage";
 import SigninPage from "./pages/signinPage";
 import LoginPage from "./pages/loginPage";
-import ChattingPage from "./pages/chattingPage";
+import ChatPage from "./pages/chatPage";
+import SecondPage from "./pages/secondPage";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import firebase from "firebase/compat/app";
@@ -13,6 +14,7 @@ import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ProfilePage from "./pages/profile";
+import WritePostPage from "./pages/writepostPage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDq1ykb435s1NUEwGXtVkcPURkQab_HtPc",
@@ -39,8 +41,10 @@ function App() {
           <Route path="auth" element={<AuthPage />} />
           <Route path="/loading" element={<LoadingPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/chat" element={<ChattingPage />} />
+          <Route path="/chat" element={<ChatPage />} />
           <Route path="/myprofile" element={<ProfilePage />} />
+          <Route path="/write_post" element={<WritePostPage />} />
+          <Route path="/second" element={<SecondPage />} />
         </Routes>
       </BrowserRouter>
     </div>
