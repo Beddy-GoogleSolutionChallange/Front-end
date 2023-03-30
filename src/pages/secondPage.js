@@ -6,7 +6,7 @@ import BottomNavigationBar from "../components/bottom-navigation-bar";
 const BeddySource = styled.img`
   border-radius: 0;
   width: 390px;
-  height: 546px;
+  height: 600px;
 `;
 
 const SecondPage = () => {
