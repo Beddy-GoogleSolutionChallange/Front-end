@@ -1,7 +1,7 @@
 The first page is login page.
 In the login page, the user can sign in and sign up.
 
-(1) If the user presses the "회원가입" button (sign in)and inputs appropriate form of email address and password, the screen is changed to homepage.
+(1) If the user presses the "로그인" button (sign in)and inputs appropriate form of email address and password, the screen is changed to homepage.
 
 (2) If the user presses the "회원가입" button(sign up), the user can create the account of our app.
 And the user info is transmitted to database.
