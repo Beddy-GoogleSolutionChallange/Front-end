@@ -1,3 +1,13 @@
+Our team wrote the code using react.js and firebase.
+
+In the public folder, there are png files that we used to insert icons.
+
+In the src folder, there are components and pages folders.
+
+In the components folder, there are components like buttons, headers and main contents of screen.
+
+In the pages folder, there are screens that include the components that exist in the components folder.
+
 The first page is login page.
 In the login page, the user can sign in and sign up.
 
